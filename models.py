@@ -41,15 +41,23 @@ def get_books():
     book_list = []
     for doc in docs:
         b = doc.to_dict()
-        # ここで順番を [ID, タイトル, 著者, 評価, 感想, 日付, 経路] に固定します
+        
+        # どんな名前（titleやbook_titleなど）で保存されていても見つけ出す工夫
+        title = b.get('title') or b.get('book_title') or b.get('本の名前') or "タイトルなし"
+        author = b.get('author') or b.get('著者') or "不明"
+        rating = b.get('rating') or 0
+        memo = b.get('memo') or b.get('感想') or ""
+        date_read = b.get('date_read') or b.get('読了日') or "未入力"
+        source = b.get('source') or b.get('入手経路') or "未記入"
+
         book_list.append([
             doc.id,
-            b.get('title', 'タイトルなし'),
-            b.get('author', '不明'),
-            b.get('rating', 0),
-            b.get('memo', ''),
-            b.get('date_read', '未入力'),
-            b.get('source', '未記入')
+            title,
+            author,
+            rating,
+            memo,
+            date_read,
+            source
         ])
     return book_list
 
