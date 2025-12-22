@@ -36,15 +36,20 @@ def add_book(title, author, rating, memo, date_read, source):
     })
 
 def get_books():
-    # 'created_at' が存在しない古いデータがあるとエラーになるのを防ぐためシンプルに取得
-    docs = db.collection('books').stream()
-    
+    books_ref = db.collection('books')
+    docs = books_ref.stream()
     book_list = []
     for doc in docs:
         b = doc.to_dict()
+        # ここで順番を [ID, タイトル, 著者, 評価, 感想, 日付, 経路] に固定します
         book_list.append([
-            doc.id, b.get('title'), b.get('author'), 
-            b.get('rating'), b.get('memo'), b.get('date_read'), b.get('source')
+            doc.id,
+            b.get('title', 'タイトルなし'),
+            b.get('author', '不明'),
+            b.get('rating', 0),
+            b.get('memo', ''),
+            b.get('date_read', '未入力'),
+            b.get('source', '未記入')
         ])
     return book_list
 
