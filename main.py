@@ -11,38 +11,39 @@ models.init_db()
 def index():
     return render_template('index.html')
 
-# 保存する機能
-def add_book(title, author, rating, memo, date_read, source):
-    books_ref = db.collection('books')
-    # ここで「どの名前(キー)で保存するか」をハッキリ指定します
-    books_ref.add({
-        'title': title,
-        'author': author,
-        'rating': int(rating),
-        'memo': memo,
-        'date_read': date_read,
-        'source': source
-    })
+# 1. 保存する機能（ここを修正しました）
+@app.route('/add_book', methods=['POST'])
+def add_book():
+    try:
+        data = request.get_json()
+        # JavaScriptから届いたデータをmodels.pyのadd_book関数に渡します
+        models.add_book(
+            data.get('title'),
+            data.get('author'),
+            data.get('rating'),
+            data.get('memo'),
+            data.get('date_read'),
+            data.get('source')
+        )
+        return jsonify({"status": "success"})
+    except Exception as e:
+        print(f"保存エラー: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
-# データを取り出す機能
+# 2. データを取り出す機能
 @app.route('/get_books')
 def get_books():
+    # models.get_books() から返ってくるリストをそのままJavaScriptに送ります
     books = models.get_books()
-    book_list = []
-    for b in books:
-        book_list.append({
-            "id": b[0], "title": b[1], "author": b[2],
-            "rating": b[3], "memo": b[4], "date_read": b[5], "source": b[6]
-        })
-    return jsonify(book_list)
+    return jsonify(books)
 
-# 1. 削除する機能
+# 3. 削除する機能
 @app.route('/delete_book', methods=['POST'])
 def delete_book():
     try:
         data = request.get_json()
         book_id = data.get('id')
-        print(f"削除要請を受け取りました: ID={book_id}") # ログに表示（確認用）
+        print(f"削除要請を受け取りました: ID={book_id}")
         
         if book_id:
             models.delete_book(book_id)
@@ -53,11 +54,9 @@ def delete_book():
         print(f"エラー発生: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
-
-# 2. アプリの起動設定（ここは今のものをそのまま残します！）
+# アプリの起動設定
 if __name__ == '__main__':
-    # host='0.0.0.0' を追加することで、Renderの外側からのアクセスを許可します
-    # port は Render が指定する数字を自動で使うように設定します
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+    
