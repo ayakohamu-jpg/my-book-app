@@ -25,14 +25,15 @@ def init_db():
     pass
 
 def add_book(title, author, rating, memo, date_read, source):
-    db.collection('books').add({
+    books_ref = db.collection('books')
+    # ここで「どの名前(キー)で保存するか」をハッキリ指定します
+    books_ref.add({
         'title': title,
         'author': author,
         'rating': int(rating),
         'memo': memo,
         'date_read': date_read,
-        'source': source,
-        'created_at': firestore.SERVER_TIMESTAMP
+        'source': source
     })
 
 def get_books():

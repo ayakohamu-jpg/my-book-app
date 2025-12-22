@@ -12,14 +12,17 @@ def index():
     return render_template('index.html')
 
 # 保存する機能
-@app.route('/add_book', methods=['POST'])
-def add_book():
-    data = request.json
-    models.add_book(
-        data['title'], data['author'], data['rating'], 
-        data['memo'], data['date_read'], data['source']
-    )
-    return jsonify({"status": "success"})
+def add_book(title, author, rating, memo, date_read, source):
+    books_ref = db.collection('books')
+    # ここで「どの名前(キー)で保存するか」をハッキリ指定します
+    books_ref.add({
+        'title': title,
+        'author': author,
+        'rating': int(rating),
+        'memo': memo,
+        'date_read': date_read,
+        'source': source
+    })
 
 # データを取り出す機能
 @app.route('/get_books')
