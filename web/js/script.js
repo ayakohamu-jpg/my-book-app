@@ -16,30 +16,22 @@ async function saveBook() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            title: title,
-            author: author,
-            rating: rating,
-            memo: memo,
-            date_read: date_read,
-            source: source
+            title: title, author: author, rating: rating,
+            memo: memo, date_read: date_read, source: source
         })
     });
 
     if (response.ok) {
-        document.getElementById('title').value = "";
-        document.getElementById('author').value = "";
-        document.getElementById('memo').value = "";
-        document.getElementById('date_read').value = "";
-        document.getElementById('source').value = "";
-
         alert("保存しました！");
-        displayBooks(); // 再表示
+        // 入力欄をクリア
+        ['title', 'author', 'memo', 'date_read', 'source'].forEach(id => document.getElementById(id).value = "");
+        displayBooks();
     } else {
         alert("保存に失敗しました。");
     }
 }
 
-// 2. 表示する関数
+// 2. 表示する関数 (undefinedを直す重要ポイント！)
 async function displayBooks() {
     const response = await fetch('/get_books');
     const books = await response.json();
@@ -48,12 +40,12 @@ async function displayBooks() {
     bookListDiv.innerHTML = ""; 
 
     books.forEach(book => {
-        // Firebaseからのリスト形式 [id, title, author, rating, memo, date, source]
+        // Firebase版はリスト形式 [ID, タイトル, 著者, 評価, 感想, 日付, 経路] で届きます
         const id = book[0]; 
-        const title = book[1];
-        const author = book[2];
-        const rating = book[3];
-        const memo = book[4];
+        const title = book[1] || "タイトルなし";
+        const author = book[2] || "不明";
+        const rating = parseInt(book[3]) || 0;
+        const memo = book[4] || "";
         const date_read = book[5] || "未入力";
         const source = book[6] || "未記入";
 
@@ -75,9 +67,7 @@ async function displayBooks() {
 }
 
 // 3. 削除する関数
-// script.js の deleteBook 関数をこれに書き換えてください
 async function deleteBook(id) {
-    console.log("削除ボタンが押されました。対象ID:", id);
     if (!confirm('本当にこの記録を消してもよろしいですか？')) return;
 
     const response = await fetch('/delete_book', {
@@ -87,14 +77,11 @@ async function deleteBook(id) {
     });
 
     if (response.ok) {
-        console.log("削除成功");
-        displayBooks(); 
+        displayBooks(); // 成功したら再表示
     } else {
-        const errorData = await response.json();
-        console.error("削除失敗:", errorData);
         alert('削除に失敗しました。');
     }
 }
 
-// アプリ起動時に実行
+// 起動時に表示
 displayBooks();
