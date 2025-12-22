@@ -33,13 +33,18 @@ def get_books():
         })
     return jsonify(book_list)
 
-# 削除する機能
+# 1. 削除する機能（ここを少し書き換えます）
 @app.route('/delete_book', methods=['POST'])
 def delete_book():
     data = request.json
-    models.delete_book(data['id'])
-    return jsonify({"status": "success"})
+    book_id = data.get('id')
+    if book_id:
+        models.delete_book(book_id)
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"status": "error", "message": "IDが見つかりません"}), 400
 
+# 2. アプリの起動設定（ここは今のものをそのまま残します！）
 if __name__ == '__main__':
     # host='0.0.0.0' を追加することで、Renderの外側からのアクセスを許可します
     # port は Render が指定する数字を自動で使うように設定します
