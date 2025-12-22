@@ -73,23 +73,20 @@ async function displayBooks() {
     });
 }
 
-// 3. 削除する関数
-async function deleteBook(bookId) {
-    if (confirm("本当にこの記録を消してもよろしいですか？")) {
-        // Flaskの /delete_book にIDを送る
-        const response = await fetch('/delete_book', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: bookId })
-        });
+// 本を削除する関数
+async function deleteBook(id) {
+    if (!confirm('本当にこの記録を消してもよろしいですか？')) return;
 
-        if (response.ok) {
-            displayBooks();
-        } else {
-            alert("削除に失敗しました。");
-        }
+    // サーバーの /delete/ID という住所に「消して！」とリクエストを送る
+    const response = await fetch(`/delete/${id}`, {
+        method: 'POST'
+    });
+
+    if (response.ok) {
+        // 消せたら画面を更新する
+        loadBooks();
+    } else {
+        alert('削除に失敗しました。');
     }
 }
 
