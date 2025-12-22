@@ -1,0 +1,149 @@
+/* 全体の背景やフォントの設定 */
+body {
+    background-color: #f5f5f5;
+    font-family: 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* 例：メインのコンテナ */
+.container {
+    width: 90%;      /* 固定の 600px などではなく、画面の90%にする */
+    max-width: 500px; /* ただし、大きくなりすぎないように制限する */
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* 入力欄やボタンも幅いっぱいにする */
+input, textarea, select, button {
+    width: 100%;
+    box-sizing: border-box; /* 枠線を含めて100%にする */
+}
+
+h1 {
+    text-align: center;
+    color: #5a4a42;
+    margin-bottom: 25px;
+}
+
+/* 入力エリアのデザイン */
+.input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+/* すべての入力項目（テキスト、日付、セレクト、テキストエリア）の共通設定 */
+input[type="text"], 
+input[type="date"], 
+textarea, 
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #333;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+/* プレースホルダー（入力前の薄い文字色）を統一 */
+::placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+/* --- 日付入力欄（input type="date"）の個別徹底調整 --- */
+
+/* 入力前（値が空）の時は、プレースホルダーと同じ薄い色にする */
+input[type="date"]:invalid {
+    color: #999;
+}
+
+/* 「年 / 月 / 日」の間の不自然な余白を消去 */
+input[type="date"]::-webkit-datetime-edit {
+    display: inline-flex;
+    padding: 0;
+}
+
+/* 内部パーツの入れ物の余白をゼロにする */
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+}
+
+/* 各数値（年・月・日）とスラッシュの間の隙間をなくす */
+input[type="date"]::-webkit-datetime-edit-year-field,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-text {
+    padding: 0;
+    margin: 0;
+}
+
+/* カレンダーアイコンの透明度を下げて馴染ませる */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+/* --- ボタンのデザイン --- */
+button {
+    padding: 12px;
+    background-color: #8b7355;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #6f5c44;
+}
+
+/* --- 本のリストのデザイン --- */
+.book-item {
+    background: #fffaf0;
+    border-left: 5px solid #8b7355;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 0 5px 5px 0;
+    position: relative;
+}
+
+.book-item h3 {
+    margin: 0 0 10px 0;
+    color: #5a4a42;
+    font-size: 1.2em;
+}
+
+.book-item p {
+    margin: 6px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* 削除ボタンの個別スタイル */
+.delete-btn {
+    background-color: #e57373;
+    margin-top: 10px;
+    padding: 8px 15px;
+    font-size: 13px;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 15px 0;
+}
