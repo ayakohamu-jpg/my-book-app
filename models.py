@@ -1,20 +1,23 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import os
+import json
 
-# 1. 鍵ファイルの「絶対パス（確実な住所）」を作る
-# これにより、Render上でもファイルがどこにあるか迷わなくなります
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-cred_path = os.path.join(BASE_DIR, 'firebase-key.json')
-
-# 2. Firebaseの初期化（二重に初期化しないようにチェックを入れる）
+# Firebaseの初期化
 if not firebase_admin._apps:
-    if os.path.exists(cred_path):
-        cred = credentials.Certificate(cred_path)
-        firebase_admin.initialize_app(cred)
+    # 1. まずは「環境変数（Render上の設定）」から鍵を探す
+    firebase_config = os.environ.get("FIREBASE_CONFIG")
+    
+    if firebase_config:
+        # Renderで動いている場合：環境変数のテキストを辞書形式に変換して読み込む
+        cred_dict = json.loads(firebase_config)
+        cred = credentials.Certificate(cred_dict)
     else:
-        # もしファイルが見つからない場合はエラーをログに出す
-        print(f"CRITICAL ERROR: Firebase key file NOT FOUND at: {cred_path}")
+        # PCでテストしている場合：手元の firebase-key.json ファイルを読み込む
+        cred_path = os.path.join(os.path.dirname(__file__), 'firebase-key.json')
+        cred = credentials.Certificate(cred_path)
+        
+    firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
