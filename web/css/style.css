@@ -1,0 +1,92 @@
+/* 全体の背景やフォントの設定 */
+body {
+    background-color: #f5f5f5;
+    font-family: 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #5a4a42;
+}
+
+/* 入力エリアのデザイン */
+.input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+input, textarea, select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px;
+    background-color: #8b7355;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #6f5c44;
+}
+
+/* 本のリストのデザイン */
+.book-item {
+    background: #fffaf0;
+    border-left: 5px solid #8b7355;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 0 5px 5px 0;
+}
+
+.book-item h3 {
+    margin: 0 0 10px 0;
+    color: #5a4a42;
+}
+
+.book-item p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+/* 日付入力欄全体のスタイル */
+/* style.css の日付欄の設定をこれだけに差し替え */
+input[type="text"], 
+input[type="date"], 
+textarea, 
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* プレースホルダー（入力前の薄い文字）の色を統一 */
+::placeholder {
+    color: #999;
+    opacity: 1;
+}
