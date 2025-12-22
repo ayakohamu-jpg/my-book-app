@@ -33,16 +33,23 @@ def get_books():
         })
     return jsonify(book_list)
 
-# 1. 削除する機能（ここを少し書き換えます）
+# 1. 削除する機能
 @app.route('/delete_book', methods=['POST'])
 def delete_book():
-    data = request.json
-    book_id = data.get('id')
-    if book_id:
-        models.delete_book(book_id)
-        return jsonify({"status": "success"})
-    else:
-        return jsonify({"status": "error", "message": "IDが見つかりません"}), 400
+    try:
+        data = request.get_json()
+        book_id = data.get('id')
+        print(f"削除要請を受け取りました: ID={book_id}") # ログに表示（確認用）
+        
+        if book_id:
+            models.delete_book(book_id)
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "IDが空です"}), 400
+    except Exception as e:
+        print(f"エラー発生: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 
 # 2. アプリの起動設定（ここは今のものをそのまま残します！）
 if __name__ == '__main__':

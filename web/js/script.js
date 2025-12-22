@@ -48,14 +48,14 @@ async function displayBooks() {
     bookListDiv.innerHTML = ""; 
 
     books.forEach(book => {
-        // Firebaseからのデータはリスト形式 [id, title, author, rating, memo, date, source] で届きます
-        const id = book[0];
+        // Firebaseからのリスト形式 [id, title, author, rating, memo, date, source]
+        const id = book[0]; 
         const title = book[1];
         const author = book[2];
         const rating = book[3];
         const memo = book[4];
-        const date_read = book[5] ? book[5] : "未入力";
-        const source = book[6] ? book[6] : "未記入";
+        const date_read = book[5] || "未入力";
+        const source = book[6] || "未記入";
 
         const bookItem = document.createElement('div');
         bookItem.className = 'book-item';
@@ -67,7 +67,7 @@ async function displayBooks() {
             <p>読了日: ${date_read}</p>
             <p>評価: ${"★".repeat(rating)}</p>
             <p>感想: ${memo}</p>
-            <button onclick="deleteBook('${id}')" style="background-color: #e57373; color: white; border: none; padding: 5px 10px; border-radius: 5px; margin-top: 10px;">この記録を消す</button>
+            <button onclick="deleteBook('${id}')" style="background-color: #e57373; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">この記録を消す</button>
             <hr>
         `;
         bookListDiv.appendChild(bookItem);
@@ -77,20 +77,21 @@ async function displayBooks() {
 // 3. 削除する関数
 // script.js の deleteBook 関数をこれに書き換えてください
 async function deleteBook(id) {
+    console.log("削除ボタンが押されました。対象ID:", id);
     if (!confirm('本当にこの記録を消してもよろしいですか？')) return;
 
-    // main.py の /delete_book に、JSON形式でIDを送る
     const response = await fetch('/delete_book', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: id }) // ここで 'id' という名前をつけて送る
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id })
     });
 
     if (response.ok) {
-        displayBooks(); // 成功したら一覧を更新
+        console.log("削除成功");
+        displayBooks(); 
     } else {
+        const errorData = await response.json();
+        console.error("削除失敗:", errorData);
         alert('削除に失敗しました。');
     }
 }
