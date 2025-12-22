@@ -41,5 +41,10 @@ def delete_book():
     return jsonify({"status": "success"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # host='0.0.0.0' を追加することで、Renderの外側からのアクセスを許可します
+    # port は Render が指定する数字を自動で使うように設定します
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
     
