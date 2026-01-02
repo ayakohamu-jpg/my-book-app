@@ -42,12 +42,13 @@ def add_book(title, author, rating, memo, date_read, source):
 # --- 取り出す機能 ---
 def get_books():
     books_ref = db.collection('books')
-    docs = books_ref.stream()
+    
+    # .order_by('date_read', direction='DESCENDING') を追加して、日付の新しい順に並べ替えます
+    docs = books_ref.order_by('date_read', direction='DESCENDING').stream()
+    
     book_list = []
     for doc in docs:
         b = doc.to_dict()
-        # [ID, タイトル, 著者, 評価, 感想, 日付, 経路] の順番でリストを作ります
-        # これにより JavaScript 側の book[1] などと整合性がとれます
         book_list.append([
             doc.id,
             b.get('title', 'タイトルなし'),
