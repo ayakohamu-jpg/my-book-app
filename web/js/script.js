@@ -22,10 +22,20 @@ async function saveBook() {
     });
 
     if (response.ok) {
-        alert("保存しました！");
-        // 入力欄をクリア
+        // 1. 入力欄をクリア
         ['title', 'author', 'memo', 'date_read', 'source'].forEach(id => document.getElementById(id).value = "");
+        
+        // 2. 一覧を最新の状態に更新
         displayBooks();
+        
+        // 3. 自動で「本棚を見る」タブへ切り替え
+        showTab('list-section');
+        
+        // 4. 最後に「保存しました」と通知（タブが切り替わった後に表示されます）
+        setTimeout(() => {
+            alert("本棚に並べました！");
+        }, 300);
+
     } else {
         alert("保存に失敗しました。");
     }
