@@ -2,38 +2,49 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>私だけの読書記録</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="読書記録">
+    <link rel="apple-touch-startup-image" href="apple-touch-icon.png">
 </head>
 <body>
     <div class="container">
         <h1>本棚の記録</h1>
 
-        <div class="input-area">
-            <input type="text" id="title" placeholder="本のタイトル">
-            <input type="text" id="author" placeholder="著者名">
-            <select id="rating">
-                <option value="5">★★★★★</option>
-                <option value="4">★★★★</option>
-                <option value="3">★★★</option>
-                <option value="2">★★</option>
-                <option value="1">★</option>
-            </select>
-            <textarea id="memo" placeholder="感想をひとこと"></textarea>
-            <input type="text" id="source" placeholder="入手経路（〇〇書店、図書館など）">
-            <input type="text" id="date_read" required placeholder="読了日(年/月/日)" 
-       onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
-            <button onclick="saveBook()">本棚に並べる</button>
+        <div class="tab-container">
+            <button id="btn-add" class="tab-btn active" onclick="showTab('add-section')">本を登録</button>
+            <button id="btn-list" class="tab-btn" onclick="showTab('list-section')">本棚を見る</button>
         </div>
 
-        <hr>
-
-        <div id="bookList">
+        <div id="add-section" class="tab-content">
+            <div class="input-area">
+                <input type="text" id="title" placeholder="本のタイトル">
+                <input type="text" id="author" placeholder="著者名">
+                <select id="rating">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="3">★★★</option>
+                    <option value="2">★★</option>
+                    <option value="1">★</option>
+                </select>
+                <textarea id="memo" placeholder="感想をひとこと"></textarea>
+                <input type="text" id="source" placeholder="入手経路（〇〇書店、図書館など）">
+                <input type="text" id="date_read" required placeholder="読了日(年/月/日)" 
+                   onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+                <button onclick="saveBook()">本棚に並べる</button>
             </div>
+        </div>
+
+        <div id="list-section" class="tab-content" style="display:none;">
+            <div id="bookList">
+                </div>
+        </div>
     </div>
 
-       <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

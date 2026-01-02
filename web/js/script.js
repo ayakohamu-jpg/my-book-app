@@ -85,3 +85,22 @@ async function deleteBook(id) {
 
 // 起動時に表示
 displayBooks();
+
+function showTab(tabId) {
+    // 両方のセクションを一旦隠す
+    document.getElementById('add-section').style.display = 'none';
+    document.getElementById('list-section').style.display = 'none';
+    
+    // 選んだセクションだけ表示する
+    document.getElementById(tabId).style.display = 'block';
+    
+    // ボタンの見た目（activeクラス）を切り替える
+    document.getElementById('btn-add').classList.remove('active');
+    document.getElementById('btn-list').classList.remove('active');
+    
+    if (tabId === 'add-section') {
+        document.getElementById('btn-add').classList.add('active');
+    } else {
+        document.getElementById('btn-list').classList.add('active');
+    }
+}

@@ -147,3 +147,35 @@ hr {
     border-top: 1px solid #eee;
     margin: 15px 0;
 }
+
+/* タブ全体のデザイン */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* ボタンのデザイン */
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background-color: #ddd;
+    color: #666;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* 選択されているボタンの色（既存のボタンの色に合わせるのがおすすめ） */
+.tab-btn.active {
+    background-color: #8b7355; /* あなたのアプリのメインカラーに合わせて調整してください */
+    color: white;
+}
+
+/* iPhoneで入力時にズームされないように調整 */
+input, select, textarea {
+    font-size: 16px !important;
+}
