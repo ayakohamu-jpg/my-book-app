@@ -112,5 +112,8 @@ function showTab(tabId) {
         document.getElementById('btn-add').classList.add('active');
     } else {
         document.getElementById('btn-list').classList.add('active');
+        
+        // 【追加】「本棚を見る」タブが開かれたら、最新のデータを読み込む
+        displayBooks();
     }
 }
